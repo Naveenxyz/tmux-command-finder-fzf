@@ -28,10 +28,11 @@ set -g @plugin 'Naveenxyz/tmux-command-finder-fzf'
    tmux source-file ~/.tmux.conf
    ```
 
-**If TPM installation fails**, manually clone the plugin:
+**If TPM installation fails**, manually clone the plugin (keep the `set -g @plugin` line in your tmux.conf):
 ```bash
 git clone https://github.com/Naveenxyz/tmux-command-finder-fzf ~/.tmux/plugins/tmux-command-finder-fzf
 ```
+Then reload: `tmux source-file ~/.tmux.conf`
 
 ### Manual Installation
 
