@@ -2,6 +2,8 @@
 
 A tmux plugin to detect and manage running commands across sessions with a fuzzy finder interface.
 
+![Tmux Command Finder Demo](tmux-fzf-example.png)
+
 ## Features
 
 - 🔍 Detects running commands across all tmux sessions and panes
