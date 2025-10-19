@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Tmux Command Finder - Quick access script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec python3 "$SCRIPT_DIR/tmux_command_finder.py" "$@"
