@@ -17,7 +17,7 @@ A tmux plugin to detect and manage running commands across sessions with a fuzzy
 1. Add plugin to your `~/.tmux.conf`:
 
 ```bash
-set -g @plugin 'naveen-bk/tmux-command-finder'
+set -g @plugin 'Naveenxyz/tmux-command-finder-fzf'
 ```
 
 2. Install with TPM:
@@ -28,18 +28,16 @@ set -g @plugin 'naveen-bk/tmux-command-finder'
    tmux source-file ~/.tmux.conf
    ```
 
-**Note**: Replace `naveen-bk/tmux-command-finder` with your actual GitHub username/repo once published.
-
 ### Manual Installation
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/naveen-bk/tmux-command-finder ~/.tmux/plugins/tmux-command-finder
+   git clone https://github.com/Naveenxyz/tmux-command-finder-fzf ~/.tmux/plugins/tmux-command-finder-fzf
    ```
 
 2. Add to `~/.tmux.conf`:
    ```bash
-   run-shell ~/.tmux/plugins/tmux-command-finder/tmux-command-finder.tmux
+   run-shell ~/.tmux/plugins/tmux-command-finder-fzf/tmux-command-finder.tmux
    ```
 
 3. Reload tmux config:
@@ -66,16 +64,16 @@ You can also run the finder directly from your shell:
 
 ```bash
 # Interactive mode
-~/.tmux/plugins/tmux-command-finder/scripts/tmux-find
+~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find
 
 # List all detected commands
-~/.tmux/plugins/tmux-command-finder/scripts/tmux-find --list
+~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find --list
 
 # List in JSON format
-~/.tmux/plugins/tmux-command-finder/scripts/tmux-find --list --json
+~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find --list --json
 
 # Specify custom target commands
-~/.tmux/plugins/tmux-command-finder/scripts/tmux-find --commands codex claude npm python
+~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find --commands codex claude npm python
 ```
 
 ## Configuration
@@ -93,8 +91,8 @@ set -g @tmux-command-finder-key 'C-g'  # Use Ctrl-g instead
 Override the default target commands by adding to your `~/.tmux.conf`:
 
 ```bash
-# Only find these specific commands
-set -g @tmux-command-finder-commands 'codex claude opencode'
+# Example: Find specific dev tools
+set -g @tmux-command-finder-commands 'codex claude opencode npm yarn nvim'
 
 # Or customize for your workflow
 set -g @tmux-command-finder-commands 'npm yarn python docker kubectl'
@@ -167,7 +165,7 @@ tmux-find --commands python node docker
 1. Remove the plugin line from `~/.tmux.conf`:
    ```bash
    # Remove this line:
-   set -g @plugin 'naveen-bk/tmux-command-finder'
+   set -g @plugin 'Naveenxyz/tmux-command-finder-fzf'
    ```
 
 2. Press `prefix + alt + u` to uninstall the plugin
@@ -176,7 +174,7 @@ tmux-find --commands python node docker
 
 ```bash
 # Remove the plugin directory
-rm -rf ~/.tmux/plugins/tmux-command-finder
+rm -rf ~/.tmux/plugins/tmux-command-finder-fzf
 
 # Remove from tmux.conf
 # Edit ~/.tmux.conf and remove the run-shell line
