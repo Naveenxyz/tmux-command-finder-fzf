@@ -10,6 +10,7 @@ A tmux plugin to detect and manage running commands across sessions with a fuzzy
 - 🌳 Parses command line arguments to identify actual commands (handles node/codex/claude correctly)
 - 🎯 Interactive fuzzy finder with live preview of pane content
 - ⚡ Quick switching to selected command's session/pane with keyboard shortcut
+- 💀 Kill panes directly from the finder interface (Ctrl-x)
 - ⚙️  Configurable target commands and keybinding
 
 ## Installation
@@ -63,7 +64,8 @@ This opens a popup with:
 - List of all detected commands
 - Live preview of pane output on the right
 - Arrow keys to navigate
-- Enter to switch to selected pane
+- **Enter** to switch to selected pane
+- **Ctrl-x** to kill the selected pane
 - Esc to cancel
 
 ### Command Line Usage
@@ -82,6 +84,9 @@ You can also run the finder directly from your shell:
 
 # Specify custom target commands
 ~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find --commands codex claude npm python
+
+# Kill a specific pane
+~/.tmux/plugins/tmux-command-finder-fzf/scripts/tmux-find --kill session:window.pane
 ```
 
 ## Configuration

@@ -189,6 +189,14 @@ class TmuxCommandFinder:
             print(f"Switched to {session}:{window}.{pane}")
         except subprocess.CalledProcessError as e:
             print(f"Error switching to pane: {e}", file=sys.stderr)
+
+    def kill_pane(self, session: str, window: str, pane: str):
+        """Kill a specific tmux pane"""
+        try:
+            subprocess.run(['tmux', 'kill-pane', '-t', f'{session}:{window}.{pane}'], check=True)
+            print(f"Killed pane {session}:{window}.{pane}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error killing pane: {e}", file=sys.stderr)
     
     def format_for_fzf(self, processes: List[TmuxProcess]) -> str:
         """Format processes for fzf display"""
@@ -227,17 +235,22 @@ class TmuxCommandFinder:
 
         # Prepare fzf command with preview
         # The preview command extracts the target (first field) and captures that pane
+        # Get the script directory to find the kill handler script
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        kill_script = os.path.join(script_dir, 'tmux_command_finder.py')
+
         fzf_cmd = [
             'fzf',
             '--ansi',
             '--prompt=Select tmux pane> ',
-            '--header=Use arrows to navigate, Enter to switch, Esc to cancel',
+            '--header=Enter: switch | Ctrl-x: kill pane | Esc: cancel',
             '--preview', 'tmux capture-pane -e -p -t {1}',
             '--preview-window=right:60%:wrap',
             '--height=90%',
             '--border=rounded',
             '--info=inline',
-            '--layout=reverse'
+            '--layout=reverse',
+            '--bind', f'ctrl-x:execute-silent(python3 {kill_script} --kill {{1}})+reload(python3 {kill_script} --list)'
         ]
 
         try:
@@ -281,12 +294,32 @@ def main():
     parser.add_argument('--commands', '-c', nargs='+', help='Target commands to look for')
     parser.add_argument('--list', '-l', action='store_true', help='List all detected commands')
     parser.add_argument('--json', '-j', action='store_true', help='Output in JSON format')
-    
+    parser.add_argument('--kill', '-k', type=str, help='Kill pane by target (session:window.pane)')
+
     args = parser.parse_args()
-    
+
     finder = TmuxCommandFinder(args.commands)
+
+    # Handle kill command
+    if args.kill:
+        # Parse session:window.pane format
+        try:
+            parts = args.kill.split(':')
+            if len(parts) == 2:
+                session = parts[0]
+                window_pane = parts[1].split('.')
+                if len(window_pane) == 2:
+                    window = window_pane[0]
+                    pane = window_pane[1]
+                    finder.kill_pane(session, window, pane)
+                    return
+        except Exception as e:
+            print(f"Error parsing kill target: {e}", file=sys.stderr)
+        print("Invalid kill target format. Expected: session:window.pane", file=sys.stderr)
+        return
+
     detected = finder.detect_commands()
-    
+
     if args.list:
         if args.json:
             output = []
@@ -304,10 +337,10 @@ def main():
                 display_cmd = proc.actual_command or proc.current_command
                 print(f"{proc.session_name}:{proc.window_index}.{proc.pane_index} | {display_cmd}")
         return
-    
+
     # Run interactive interface
     selected = finder.run_fzf_interface(detected)
-    
+
     if selected:
         finder.switch_to_pane(selected.session_name, selected.window_index, selected.pane_index)
 
