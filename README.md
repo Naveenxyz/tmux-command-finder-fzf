@@ -6,6 +6,7 @@ A tmux plugin to detect and manage running commands across sessions with a fuzzy
 
 ## Features
 
+- 🚀 **Quick access**: Press `prefix + Ctrl-f` to open the finder (configurable)
 - 🔍 Detects running commands across all tmux sessions and panes
 - 🌳 Parses command line arguments to identify actual commands (handles node/codex/claude correctly)
 - 🎯 Interactive fuzzy finder with live preview of pane content
